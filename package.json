@@ -1,6 +1,6 @@
 {
   "name": "rn-paygoal-pg",
-  "version": "0.1.1",
+  "version": "1.0.1",
   "description": "Paygoal payment gateway for react-native app",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -159,5 +159,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "react-native-webview": "^13.6.4"
   }
 }

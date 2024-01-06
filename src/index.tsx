@@ -1,17 +1,61 @@
-// export function multiply(a: number, b: number): Promise<number> {
-//   return Promise.resolve(a * b);
-// }
 import React from 'react';
-import { Text, View } from 'react-native';
+import type { ViewStyle } from 'react-native';
+import type { StyleProp } from 'react-native';
+import { PixelRatio } from 'react-native';
+import { Dimensions } from 'react-native';
+import { View } from 'react-native';
+import { WebView } from 'react-native-webview';
 
-export const index = (a: number, b: number) => {
+export interface PayGoalPgComponentProp {
+  style?: StyleProp<ViewStyle>;
+  url: string;
+  paramData: any;
+  onNavigationStateChange?(webViewState: any): void;
+  onMessage?(evt: any): void;
+  reqMethod?: string;
+  scrollEnabled?: boolean;
+}
+
+export const PayGoalPgComponent = function PayGoalPgComponent(
+  props: PayGoalPgComponentProp
+) {
+  const {
+    style,
+    url,
+    paramData,
+    onNavigationStateChange,
+    onMessage,
+    reqMethod,
+    scrollEnabled = true,
+  } = props;
+  const $styles = [$webViewStyle, style];
   return (
-    <View
-      style={{ backgroundColor: '#0f0f0f', width: '100%', paddingVertical: 24 }}
-    >
-      <Text>First number is :- {a}</Text>
-      <Text>Second number is :- {b}</Text>
-      <Text>Multiply of both number is :- {a * b}</Text>
+    <View style={$styles}>
+      <WebView
+        source={{
+          uri: url,
+          method: reqMethod && reqMethod != null ? reqMethod : 'POST',
+          body: paramData,
+        }}
+        style={$styles}
+        scrollEnabled={scrollEnabled}
+        originWhitelist={['*']}
+        onNavigationStateChange={(webViewStateChange) => {
+          if (onNavigationStateChange) {
+            onNavigationStateChange(webViewStateChange);
+          }
+        }}
+        onMessage={(evt) => {
+          if (onMessage) {
+            onMessage(evt);
+          }
+        }}
+      />
     </View>
   );
+};
+const $webViewStyle: ViewStyle = {
+  flex: 1,
+  height: PixelRatio.getFontScale() * Dimensions.get('screen').height,
+  width: Dimensions.get('screen').width,
 };
