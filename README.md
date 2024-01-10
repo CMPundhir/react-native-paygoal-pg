@@ -43,7 +43,7 @@ const TestPG = () => {
 
 ## Props
 
-| Param                                 | Type                 | Mandatory | Description                    |
+| #Param                                 | #Type                 | #Mandatory | #Description                    |
 | ------------------------------------- | -------------------- | --------- | ------------------------------ |
 | style                                 | StyleProp<ViewStyle> | No        | View style prop                |
 | onNavigationStateChange(webViewState) | void                 | No        | function to handle current URL |
