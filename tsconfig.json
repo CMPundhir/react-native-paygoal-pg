@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "rootDir": ".",
     "paths": {
       "rn-paygoal-pg": ["./src/index"]
+      // "rn-paygoal-pg": ["./lib/typescript/src/index.d.ts"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -22,7 +24,13 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "esnext",
-    "verbatimModuleSyntax": true
-  }
+    // "target": "esnext",
+    "verbatimModuleSyntax": true,
+    "target": "es5",
+    "sourceMap": true,
+    "noImplicitAny": true,
+  },
+  "exclude": [
+        "node_modules"
+    ]
 }

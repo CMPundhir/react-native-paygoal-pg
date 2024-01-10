@@ -1,11 +1,11 @@
 {
   "name": "rn-paygoal-pg",
-  "version": "1.0.1",
+  "version": "1.1.7",
   "description": "Paygoal payment gateway for react-native app",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
-  "types": "lib/typescript/src/index.d.ts",
-  "react-native": "src/index",
+  "main": "index.js",
+  "main-internal": "src/index.tsx",
+  "react-native": "src/index.tsx",
+  "typings": "index.d.ts",
   "source": "src/index",
   "files": [
     "src",
@@ -23,7 +23,8 @@
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
-    "!**/.*"
+    "!**/.*",
+    "index.d.ts"
   ],
   "scripts": {
     "example": "yarn workspace rn-paygoal-pg-example",
@@ -71,7 +72,7 @@
     "react-native": "0.72.6",
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
-    "typescript": "^5.0.2"
+    "typescript": "^5.3.3"
   },
   "resolutions": {
     "@types/react": "17.0.21"
@@ -155,12 +156,14 @@
       [
         "typescript",
         {
-          "project": "tsconfig.build.json"
+          "project": "tsconfig.json"
         }
       ]
     ]
   },
   "dependencies": {
+    "@types/webrtc": "^0.0.41",
+    "react-native-sha256": "^1.4.9",
     "react-native-webview": "^13.6.4"
   }
 }
