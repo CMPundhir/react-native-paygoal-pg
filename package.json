@@ -1,6 +1,6 @@
 {
   "name": "rn-paygoal-pg",
-  "version": "1.1.7",
+  "version": "1.2.2",
   "description": "Paygoal payment gateway for react-native app",
   "main": "index.js",
   "main-internal": "src/index.tsx",
@@ -38,7 +38,12 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "BiggBrains",
+    "paygoal",
+    "payment gateway",
+    "pg",
+    "react native payment gateway"
   ],
   "repository": {
     "type": "git",

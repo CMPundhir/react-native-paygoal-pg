@@ -6,12 +6,11 @@ import { Dimensions } from 'react-native';
 import { View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { sha256 } from 'react-native-sha256';
-import { Text } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
 export interface PayGoalPgComponentProp {
   style?: StyleProp<ViewStyle>;
-  onNavigationStateChange?(webViewState: any): void;
-  onMessage?(evt: any): void;
+  onComplete?(): void;
   scrollEnabled?: boolean;
   amount: string;
   email: string;
@@ -30,8 +29,7 @@ export const PayGoalPgComponent = function PayGoalPgComponent(
 ) {
   const {
     style,
-    onNavigationStateChange,
-    onMessage,
+    onComplete,
     scrollEnabled = true,
     amount,
     email,
@@ -72,7 +70,6 @@ export const PayGoalPgComponent = function PayGoalPgComponent(
 
     sha256(tempData).then((hash: string) => {
       tempData += '~HASH=' + hash.toUpperCase();
-
       const bodyData = `AMOUNT=${amount}&CURRENCY_CODE=356&CUST_EMAIL=${email}&CUST_ID=&CUST_NAME=${name}&CUST_PHONE=${mobile}&CUST_STREET_ADDRESS1=${address}&CUST_ZIP=${pincode}&ORDER_ID=${orderId}&PAY_ID=${payId}&PRODUCT_DESC=${producDesc}&RETURN_URL=https://sandbox.paygoal.in/order/internal/nativeResponse&HASH=${hash.toUpperCase()}`;
       setSdkData(bodyData);
       setRedirect(true);
@@ -82,6 +79,11 @@ export const PayGoalPgComponent = function PayGoalPgComponent(
   const _onNavigationStateChangeSdk = (webViewState: any) => {
     const url: string = webViewState.url;
     console.log('current url :- ', url);
+    if (url === 'https://sandbox.paygoal.in/order/internal/nativeResponse') {
+      if (onComplete) {
+        onComplete();
+      }
+    }
   };
 
   React.useEffect(() => {
@@ -102,22 +104,24 @@ export const PayGoalPgComponent = function PayGoalPgComponent(
           scrollEnabled={scrollEnabled}
           originWhitelist={['*']}
           onNavigationStateChange={(webViewStateChange) => {
-            if (onNavigationStateChange) {
-              onNavigationStateChange(webViewStateChange);
-            } else {
-              _onNavigationStateChangeSdk(webViewStateChange);
-            }
+            _onNavigationStateChangeSdk(webViewStateChange);
           }}
-          onMessage={(evt) => {
-            if (onMessage) {
-              onMessage(evt);
-            } else {
-              setRedirect(false);
-            }
-          }}
+          // onMessage={(_evt) => {
+          //   setRedirect(false);
+          // }}
         />
       ) : (
-        <Text style={{ fontSize: 54 }}>Please wait while page is loading</Text>
+        <View
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+          }}
+        >
+          <ActivityIndicator size="large" />
+        </View>
       )}
     </View>
   );
