@@ -32,10 +32,8 @@ const TestPG = () => {
       mobile="9999999999"
       orderId="ref@123"
       address="Delhi"
-      pincode="110000"
-      producDesc="Test Transaction"
-      payId="123456789"
-      salt="123456789"
+      uid="123456789"
+      encryptionKey="123456789"
       onComplete = () => {
         // onComplete will be invoked in both cases failed or success
         // your code here
@@ -47,21 +45,19 @@ const TestPG = () => {
 
 ## Props
 
-| Param         | Type                 | Mandatory | Description                                                             |
-| :------------ | :------------------- | :-------- | :---------------------------------------------------------------------- |
-| style         | StyleProp<ViewStyle> | No        | View style prop                                                         |
-| onComplete()  | void                 | No        | Function to handle onComplete of payment                                |
-| scrollEnabled | boolean              | No        | Weather the SDK view will be scrollable or not                          |
-| amount        | string               | Yes       | Amout of transaction (in Paisa only)                                    |
-| email         | string               | Yes       | Email of user                                                           |
-| name          | string               | Yes       | Name of user                                                            |
-| mobile        | string               | Yes       | Mobile of user                                                          |
-| orderId       | string               | Yes       | Unique refrence ID                                                      |
-| address       | string               | Yes       | Address of user                                                         |
-| pincode       | string               | Yes       | Pincode of user's address                                               |
-| producDesc    | string               | Yes       | Product Description                                                     |
-| payId         | string               | Yes       | PayId provided by the PayGoal payment gateway team                      |
-| salt          | string               | Yes       | Salt string for encryption provided by the PayGoal payment gateway team |
+| Param         | Type                 | Mandatory | Description                                                    |
+| :------------ | :------------------- | :-------- | :------------------------------------------------------------- |
+| style         | StyleProp<ViewStyle> | No        | View style prop                                                |
+| onComplete()  | void                 | No        | Function to handle onComplete of payment                       |
+| scrollEnabled | boolean              | No        | Weather the SDK view will be scrollable or not                 |
+| amount        | string               | Yes       | Amout of transaction (in Rupees only)                          |
+| email         | string               | Yes       | Email of user                                                  |
+| name          | string               | Yes       | Name of user                                                   |
+| mobile        | string               | Yes       | Mobile of user                                                 |
+| orderId       | string               | Yes       | Unique refrence ID (Alpha numeric only, no special characters) |
+| address       | string               | Yes       | Address of user                                                |
+| uid           | string               | Yes       | Unique ID provided by Paygoal payment gateway team             |
+| encryptionKey | string               | Yes       | key provided by Paygoal payment gateway team                   |
 
 ## Git Repository
 

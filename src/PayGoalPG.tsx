@@ -18,10 +18,8 @@ export interface PayGoalPgComponentProp {
   mobile: number;
   orderId: string;
   address: string;
-  pincode: string;
-  producDesc: string;
-  payId: string;
-  salt: string;
+  uid: string;
+  encryptionKey: string;
 }
 
 export const PayGoalPgComponent = function PayGoalPgComponent(
@@ -37,40 +35,18 @@ export const PayGoalPgComponent = function PayGoalPgComponent(
     mobile,
     orderId,
     address,
-    pincode,
-    producDesc,
-    payId,
-    salt,
+    uid,
+    encryptionKey,
   } = props;
   const $styles = [$webViewStyle, style];
   const [redirect, setRedirect] = React.useState(false);
   const [sdkData, setSdkData] = React.useState<any>({});
   const option2 = () => {
-    let tempData: string =
-      'AMOUNT=' +
-      amount +
-      '~CURRENCY_CODE=356~CUST_EMAIL=' +
-      email +
-      '~CUST_ID=~CUST_NAME=' +
-      name +
-      '~CUST_PHONE=' +
-      mobile +
-      '~CUST_STREET_ADDRESS1=' +
-      address +
-      '~CUST_ZIP=' +
-      pincode +
-      '~ORDER_ID=' +
-      orderId +
-      '~PAY_ID=' +
-      payId +
-      '~PRODUCT_DESC=' +
-      producDesc +
-      '~RETURN_URL=https://sandbox.paygoal.in/order/internal/nativeResponse' +
-      salt;
+    let tempData: string = `${amount}|356|${address}|${email}|${mobile}|${name}|${orderId}|https://sandbox.paygoal.in/order/internal/nativeResponse|SALE|${uid}|${encryptionKey}`;
 
     sha256(tempData).then((hash: string) => {
       tempData += '~HASH=' + hash.toUpperCase();
-      const bodyData = `AMOUNT=${amount}&CURRENCY_CODE=356&CUST_EMAIL=${email}&CUST_ID=&CUST_NAME=${name}&CUST_PHONE=${mobile}&CUST_STREET_ADDRESS1=${address}&CUST_ZIP=${pincode}&ORDER_ID=${orderId}&PAY_ID=${payId}&PRODUCT_DESC=${producDesc}&RETURN_URL=https://sandbox.paygoal.in/order/internal/nativeResponse&HASH=${hash.toUpperCase()}`;
+      const bodyData = `AMOUNT=${amount}&CURRENCY=356&CUSTOMER_ADDRESS=${address}&CUSTOMER_EMAIL=${email}&CUSTOMER_NAME=${name}&CUSTOMER_MOBILE=${mobile}&ORDER_ID=${orderId}&RETURN_URL=https://sandbox.paygoal.in/order/internal/nativeResponse&TRANSACTION_TYPE=SALE&UID=${uid}&SIGN=${hash}`;
       setSdkData(bodyData);
       setRedirect(true);
     });
@@ -96,7 +72,7 @@ export const PayGoalPgComponent = function PayGoalPgComponent(
         <WebView
           goBack={() => {}}
           source={{
-            uri: 'https://www.paygoal.in/order/v1/payment',
+            uri: 'https://sandbox.paygoal.in/order/pay',
             method: 'POST',
             body: sdkData && sdkData,
           }}
@@ -128,6 +104,6 @@ export const PayGoalPgComponent = function PayGoalPgComponent(
 };
 const $webViewStyle: ViewStyle = {
   flex: 1,
-  height: PixelRatio.getFontScale() * Dimensions.get('screen').height,
+  height: PixelRatio.getFontScale() * Dimensions.get('window').height * 1.2,
   width: Dimensions.get('screen').width,
 };
